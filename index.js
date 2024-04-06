@@ -70,13 +70,13 @@ operations.forEach((operation) => {
 
 // Function to round the result to 2 decimal places
 
-function roundOffNumber(ansValue) {
-  let ansInString = ansValue.toString();
+function roundOffNumber(resultValue) {
+  let resultInString = resultValue.toString();
 
-  if (ansInString.includes(".")) {
-    return Number(ansInString).toFixed(2);
+  if (resultInString.includes(".")) {
+    return Number(resultInString).toFixed(2);
   } else {
-    return Number(ansInString);
+    return Number(resultInString);
   }
 }
 
@@ -89,15 +89,15 @@ equalButton.addEventListener("click", (e) => {
 
   // Calculate the result
 
-  let ans = calculate(display_number);
-  display_number += "" + ans;
-  ans = roundOffNumber(ans);
+  let result = calculate(display_number);
+  display_number += "" + result;
+  result = roundOffNumber(result);
 
-  if (ans === Infinity) {
+  if (result === Infinity) {
     display_number = "";
     input_display.value = "INFINITY";
   } else {
-    display_number = "" + ans;
+    display_number = "" + result;
     input_display.value = display_number;
   }
 });
@@ -117,24 +117,24 @@ function checkIsOperator(char) {
 }
 // Function to determine operator precedence
 
-function precedence(op) {
-  if (op === "+" || op === "-") return 1;
-  if (op === "x" || op === "/") return 2;
+function precedence(oper) {
+  if (oper === "+" || oper === "-") return 1;
+  if (oper === "x" || oper === "/") return 2;
   return 0;
 }
 
 // Function to apply the operation to two operands
 
-function applyOperation(op, b, a) {
+function applyOperation(oper, b, a) {
   // Handling negative value calculation
 
-  if (op === "x") {
+  if (oper === "x") {
     if (a < 0 && b < 0) {
       return Math.abs(a) * Math.abs(b);
     } else if( a< 0 || b<0){
       return -Math.abs(a) * Math.abs(b);
     }
-  } else if (op === "/") {
+  } else if (oper === "/") {
     if (b < 0 && a < 0) {
       return Math.abs(a) / Math.abs(b);
     } else if (a < 0 && b > 0) {
@@ -144,7 +144,7 @@ function applyOperation(op, b, a) {
     }
   }
 
-  switch (op) {
+  switch (oper) {
     case "+":
       return a + b;
     case "-":
