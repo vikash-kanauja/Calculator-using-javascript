@@ -89,7 +89,8 @@ equalButton.addEventListener("click", (e) => {
 
   // Calculate the result
 
-  let result = calculate(display_number);
+  let result = calculate(input_display.value);
+  console.log(result);
   display_number += "" + result;
   result = roundOffNumber(result);
 
