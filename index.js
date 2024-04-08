@@ -1,38 +1,38 @@
-const input_display = document.querySelector(".display-value");
+const inputDisplay = document.querySelector(".display-value");
 const numbers = document.querySelectorAll(".number");
 const operations = document.querySelectorAll(".operation");
 const equalButton = document.querySelector(".equal");
 const clearAllButton = document.querySelector(".all-clear");
 
-let display_number = ""; // Holds the current input/displayed number
+let displayNumber = ""; // Holds the current input/displayed number
 
-let haveDot = false; // Tracks whether a decimal point is already present in the number
+let isDecimalPoint = false; // Tracks whether a decimal point is already present in the number
 
 // adding click handlers to number buttons
 numbers.forEach((number) => {
   number.addEventListener("click", (e) => {
     if (
       e.target.innerText === "0" &&
-      display_number.charAt(0) === "0" &&
-      display_number.length === 1
+      displayNumber.charAt(0) === "0" &&
+      displayNumber.length === 1
     ) {
       return;
     }
     // Handling decimal input
-    if (e.target.innerText === "." && !haveDot) {
-      haveDot = true;
-      if (!display_number || checkIsLastOperator(display_number)) {
+    if (e.target.innerText === "." && !isDecimalPoint) {
+      isDecimalPoint = true;
+      if (!displayNumber || checkIsLastOperator(displayNumber)) {
         // Adding "0" before the decimal if it's the first input or after an operator
-        display_number += "0" + e.target.innerText;
-        input_display.value = display_number;
+        displayNumber += "0" + e.target.innerText;
+        inputDisplay.value = displayNumber;
         return;
       }
-    } else if (e.target.innerText === "." && haveDot) {
+    } else if (e.target.innerText === "." && isDecimalPoint) {
       return;
     }
 
-    display_number += e.target.innerText; // Appending the input number to the display
-    input_display.value = display_number;
+    displayNumber += e.target.innerText; // Appending the input number to the display
+    inputDisplay.value = displayNumber;
   });
 });
 
@@ -44,27 +44,27 @@ operations.forEach((operation) => {
       (e.target.innerText === "+" ||
         e.target.innerText === "x" ||
         e.target.innerText === "/") &&
-      display_number.length === 0
+      displayNumber.length === 0
     ) {
       return;
     } else if (
-      (display_number.charAt(display_number.length - 1) === "x" ||
-        display_number.charAt(display_number.length - 1) === "/") &&
+      (displayNumber.charAt(displayNumber.length - 1) === "x" ||
+        displayNumber.charAt(displayNumber.length - 1) === "/") &&
       e.target.innerText === "-" &&
-      display_number.length >= 2
+      displayNumber.length >= 2
     ) {
-      display_number += e.target.innerText;
-      input_display.value = display_number;
-    } else if (checkIsLastOperator(display_number)) {
+      displayNumber += e.target.innerText;
+      inputDisplay.value = displayNumber;
+    } else if (checkIsLastOperator(displayNumber)) {
       return;
-    } else if (display_number.charAt(display_number.length - 1) === ".") {
+    } else if (displayNumber.charAt(displayNumber.length - 1) === ".") {
       // Handling the case when "." is the last character
-      return display_number;
+      return displayNumber;
     } else {
-      display_number += e.target.innerText;
-      input_display.value = display_number;
+      displayNumber += e.target.innerText;
+      inputDisplay.value = displayNumber;
     }
-    haveDot = false;
+    isDecimalPoint = false;
   });
 });
 
@@ -83,32 +83,32 @@ function roundOffNumber(resultValue) {
 // Click handler for the equal button
 
 equalButton.addEventListener("click", (e) => {
-  if (checkIsLastOperator(display_number.charAt(display_number.length - 1))) {
-    return display_number;
+  if (checkIsLastOperator(displayNumber.charAt(displayNumber.length - 1))) {
+    return displayNumber;
   }
 
   // Calculate the result
 
-  let result = calculate(input_display.value);
+  let result = calculate(inputDisplay.value);
   console.log(result);
-  display_number += "" + result;
+  displayNumber += "" + result;
   result = roundOffNumber(result);
 
   if (result === Infinity) {
-    display_number = "";
-    input_display.value = "INFINITY";
+    displayNumber = "";
+    inputDisplay.value = "INFINITY";
   } else {
-    display_number = "" + result;
-    input_display.value = display_number;
+    displayNumber = "" + result;
+    inputDisplay.value = displayNumber;
   }
 });
 
 // Click handler for the clear button
 
 clearAllButton.addEventListener("click", (e) => {
-  display_number = "";
-  haveDot = false;
-  input_display.value = "";
+  displayNumber = "";
+  isDecimalPoint = false;
+  inputDisplay.value = "";
 });
 
 // Function to check if a character is an operator
